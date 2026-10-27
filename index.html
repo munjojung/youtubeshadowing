@@ -177,7 +177,7 @@
         <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl p-3.5 text-xs text-slate-400 flex items-center justify-between">
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-circle-info text-brand-500"></i>
-            <span><b>Tip:</b> 문장 스크립트의 타임스탬프 클릭 시 해당 위치로 이동합니다.</span>
+            <span><b>Tip:</b> 문장 스크립트의 타임스탬프 클릭 시 해당 위치로 이동합니다. 영상 내 하단 [CC] 버튼으로 자막을 끄고 켤 수 있습니다.</span>
           </div>
           <span class="text-slate-500 hidden sm:inline">단축키: 스페이스바(재생/정지)</span>
         </div>
@@ -407,7 +407,8 @@
         videoId: DEFAULT_VIDEO_ID,
         playerVars: {
           'playsinline': 1,
-          'controls': 0,
+          'controls': 1,       // YouTube 기본 컨트롤러 노출 (CC 자막 버튼 포함)
+          'cc_load_policy': 1, // 자막 자동 활성화 설정
           'rel': 0,
           'modestbranding': 1
         },
@@ -524,10 +525,8 @@
       const todayDate = new Date().toLocaleDateString('ko-KR');
 
       if (existingIndex > -1) {
-        // Update existing item
         savedVideos[existingIndex].title = title || savedVideos[existingIndex].title;
       } else {
-        // Add new item to front
         savedVideos.unshift({
           id: id,
           title: displayTitle,
