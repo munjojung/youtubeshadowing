@@ -242,7 +242,7 @@
             </div>
           </div>
 
-          <!-- 2. Typing Practice Mode (16px Font) -->
+          <!-- 2. Typing Practice Mode (영어 입력 전용 설정 적용) -->
           <div id="contentTyping" class="hidden flex-col gap-4 flex-1">
             <!-- Reference Sentence -->
             <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-xl">
@@ -250,25 +250,29 @@
                 <span class="font-semibold text-brand-500"><i class="fa-solid fa-[#bullseye] mr-1"></i> 대상 문장 (학습용)</span>
                 <button id="copyTargetSentence" class="hover:text-slate-200"><i class="fa-regular fa-copy"></i> 복사</button>
               </div>
-              <p id="targetText" class="text-slate-100 text-base font-medium leading-relaxed bg-slate-900/50 p-3 rounded-lg border border-slate-800">
+              <p id="targetText" lang="en" class="text-slate-100 text-base font-medium leading-relaxed bg-slate-900/50 p-3 rounded-lg border border-slate-800">
                 Select a sentence from the Script tab or type your custom text here.
               </p>
             </div>
 
-            <!-- Typing Input Field -->
+            <!-- Typing Input Field (lang="en", autocorrect="off", spellcheck="false") -->
             <div class="flex flex-col gap-2 flex-1">
               <label class="text-xs font-semibold text-slate-400 flex items-center justify-between">
                 <span><i class="fa-solid fa-pen-keyboard mr-1"></i> 따라 쓰기 (타이핑)</span>
                 <span id="accuracyBadge" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">일치율: 0%</span>
               </label>
               <textarea id="typingInput" rows="5" 
-                placeholder="듣고 들리는 대로 문장을 작성해보세요..." 
+                lang="en"
+                autocorrect="off"
+                autocapitalize="none"
+                spellcheck="false"
+                placeholder="듣고 들리는 대로 문장을 작성해보세요... (영어 전용)" 
                 class="w-full bg-slate-950 border border-slate-800 text-slate-100 text-base p-3 rounded-xl focus:outline-none focus:border-brand-500 transition-colors resize-none leading-relaxed font-mono"></textarea>
               
               <!-- Real-time Comparison Preview -->
               <div class="bg-slate-950/60 border border-slate-800 p-3 rounded-xl min-h-[75px]">
                 <span class="text-[11px] text-slate-500 block mb-1">실시간 교정 / 비교 피드백:</span>
-                <div id="diffView" class="text-base font-mono leading-relaxed break-words text-slate-400 italic">
+                <div id="diffView" lang="en" class="text-base font-mono leading-relaxed break-words text-slate-400 italic">
                   타이핑을 시작하면 실시간으로 비교 결과가 표시됩니다.
                 </div>
               </div>
@@ -1020,6 +1024,14 @@
           btn.className = 'flex-1 py-2.5 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition bg-brand-600 text-white shadow';
           content.classList.remove('hidden');
           content.classList.add('flex');
+          
+          // 타이핑 탭 선택 시 자동으로 포커스 부여
+          if (t === 'typing') {
+            setTimeout(() => {
+              const typingInput = document.getElementById('typingInput');
+              if (typingInput) typingInput.focus();
+            }, 100);
+          }
         } else {
           btn.className = 'flex-1 py-2.5 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-800/50';
           content.classList.add('hidden');
