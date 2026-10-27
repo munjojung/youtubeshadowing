@@ -99,19 +99,19 @@
   </header>
 
   <!-- Main Content Area: Split View -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-6">
+  <main class="flex-1 max-w-[1600px] w-full mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-    <!-- Left Column: Video & Player Controls (7 cols on lg) -->
-    <section class="lg:col-span-7 flex flex-col gap-4">
+    <!-- Left Column: Video & Player Controls (8 cols on lg for ~1.3x larger view) -->
+    <section class="lg:col-span-8 flex flex-col gap-4">
       
-      <!-- Video Container -->
+      <!-- Video Container (Enlarged) -->
       <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
         <div class="relative aspect-video bg-black flex items-center justify-center">
           <div id="youtubePlayer" class="w-full h-full"></div>
           <!-- Overlay Placeholder before player load -->
           <div id="playerPlaceholder" class="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center text-center p-6 z-10">
-            <i class="fa-brands fa-youtube text-5xl text-red-500 mb-3 animate-pulse"></i>
-            <p class="text-slate-300 font-medium">유튜브 영상 URL을 상단에 입력하여 학습을 시작하세요.</p>
+            <i class="fa-brands fa-youtube text-6xl text-red-500 mb-3 animate-pulse"></i>
+            <p class="text-slate-300 font-medium text-lg">유튜브 영상 URL을 상단에 입력하여 학습을 시작하세요.</p>
             <p class="text-slate-500 text-xs mt-1">기본 데모 영상이 자동으로 준비되어 있습니다.</p>
             <button id="loadDefaultDemoBtn" class="mt-4 px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-medium rounded-lg transition">
               데모 영상 로드
@@ -183,8 +183,8 @@
 
     </section>
 
-    <!-- Right Column: Interactive Practice Panel (5 cols on lg) -->
-    <section class="lg:col-span-5 flex flex-col bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden min-h-[550px]">
+    <!-- Right Column: Interactive Practice Panel (4 cols on lg) -->
+    <section class="lg:col-span-4 flex flex-col bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden min-h-[550px]">
       
       <!-- Tab Header -->
       <div class="flex border-b border-slate-800 bg-slate-950/50 p-1.5 gap-1">
@@ -209,7 +209,6 @@
             
             <!-- Audio Waveform Visualizer -->
             <div id="visualizer" class="w-full h-16 bg-slate-900 border border-slate-800 rounded-lg flex items-center justify-center gap-1 px-4 overflow-hidden">
-              <!-- Visualizer Bars dynamically animated via JS -->
               <div class="text-slate-600 text-xs italic" id="visualizerPlaceholder">마이크 준비됨</div>
             </div>
 
@@ -242,7 +241,7 @@
           </div>
         </div>
 
-        <!-- 2. Typing Practice Mode (타이핑 연습) -->
+        <!-- 2. Typing Practice Mode (타이핑 연습 - 폰트 16px 설정) -->
         <div id="contentTyping" class="hidden flex-col gap-4 flex-1">
           <!-- Reference Sentence -->
           <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-xl">
@@ -250,25 +249,28 @@
               <span class="font-semibold text-brand-500"><i class="fa-solid fa-[#bullseye] mr-1"></i> 대상 문장 (학습용)</span>
               <button id="copyTargetSentence" class="hover:text-slate-200"><i class="fa-regular fa-copy"></i> 복사</button>
             </div>
-            <p id="targetText" class="text-slate-200 text-sm font-medium leading-relaxed bg-slate-900/50 p-2.5 rounded-lg border border-slate-800">
+            <!-- targetText Font size set to 16px (text-base) -->
+            <p id="targetText" class="text-slate-200 text-base font-medium leading-relaxed bg-slate-900/50 p-3 rounded-lg border border-slate-800">
               Select a sentence from the Script tab or type your custom text here.
             </p>
           </div>
 
-          <!-- Typing Input Field -->
+          <!-- Typing Input Field (Font size 16px set) -->
           <div class="flex flex-col gap-2 flex-1">
             <label class="text-xs font-semibold text-slate-400 flex items-center justify-between">
               <span><i class="fa-solid fa-pen-keyboard mr-1"></i> 따라 쓰기 (타이핑)</span>
               <span id="accuracyBadge" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">일치율: 0%</span>
             </label>
+            <!-- typingInput Font size set to 16px (text-base) -->
             <textarea id="typingInput" rows="4" 
               placeholder="듣고 들리는 대로 문장을 작성해보세요..." 
-              class="w-full bg-slate-950 border border-slate-800 text-slate-100 text-sm p-3 rounded-xl focus:outline-none focus:border-brand-500 transition-colors resize-none leading-relaxed font-mono"></textarea>
+              class="w-full bg-slate-950 border border-slate-800 text-slate-100 text-base p-3 rounded-xl focus:outline-none focus:border-brand-500 transition-colors resize-none leading-relaxed font-mono"></textarea>
             
-            <!-- Real-time Comparison Preview -->
-            <div class="bg-slate-950/60 border border-slate-800 p-3 rounded-xl min-h-[60px]">
+            <!-- Real-time Comparison Preview (Font size 16px set) -->
+            <div class="bg-slate-950/60 border border-slate-800 p-3 rounded-xl min-h-[70px]">
               <span class="text-[11px] text-slate-500 block mb-1">실시간 교정 / 비교 피드백:</span>
-              <div id="diffView" class="text-sm font-mono leading-relaxed break-words text-slate-400 italic">
+              <!-- diffView Font size set to 16px (text-base) -->
+              <div id="diffView" class="text-base font-mono leading-relaxed break-words text-slate-400 italic">
                 타이핑을 시작하면 실시간으로 비교 결과가 표시됩니다.
               </div>
             </div>
@@ -365,8 +367,8 @@
       { id: 3, time: 10, text: "Consistency is the key to improving your pronunciation and fluency." }
     ];
 
-    // Default YouTube Demo Video ID (TED or English Talk)
-    const DEFAULT_VIDEO_ID = "dQw4w9WgXcQ"; // Rick Astley or substitute with demo ID
+    // Default YouTube Demo Video ID
+    const DEFAULT_VIDEO_ID = "dQw4w9WgXcQ";
 
     // Initializer when YouTube API is Ready
     function onYouTubeIframeAPIReady() {
@@ -421,7 +423,7 @@
         if (e.key === 'Enter') loadVideoFromInput();
       });
       document.getElementById('loadDefaultDemoBtn').addEventListener('click', () => {
-        loadVideoById('kqF4zpS92H0'); // English learning sample clip
+        loadVideoById('kqF4zpS92H0');
       });
 
       // Player Control Buttons
@@ -522,7 +524,7 @@
 
       if (isLooping) {
         loopStartTime = player.getCurrentTime();
-        loopEndTime = loopStartTime + 5; // Default 5 seconds loop window
+        loopEndTime = loopStartTime + 5;
         loopBtn.classList.add('border-brand-500', 'text-brand-500', 'bg-brand-500/10');
         loopText.textContent = `구간반복 (5s)`;
         showToast('현재 위치부터 5초 구간 반복 실행');
@@ -539,15 +541,12 @@
           const current = player.getCurrentTime() || 0;
           const duration = player.getDuration() || 1;
 
-          // Update Time Labels
           document.getElementById('currentTime').textContent = formatTime(current);
           document.getElementById('durationTime').textContent = formatTime(duration);
 
-          // Update Progress Bar Slider
           const percentage = (current / duration) * 100;
           document.getElementById('progressBar').value = percentage;
 
-          // Handle A-B Loop Logic
           if (isLooping && current >= loopEndTime) {
             player.seekTo(loopStartTime, true);
           }
@@ -561,14 +560,13 @@
       }
     }
 
-    // Time Formatting Utility
     function formatTime(seconds) {
       const min = Math.floor(seconds / 60);
       const sec = Math.floor(seconds % 60);
       return `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
     }
 
-    // Voice Recording API (MediaRecorder & Web Audio)
+    // Voice Recording API
     async function startRecording() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -582,14 +580,12 @@
         isRecording = true;
         recordStartTime = Date.now();
 
-        // UI State Update
         document.getElementById('recordBtn').disabled = true;
         document.getElementById('recordBtn').classList.add('opacity-50', 'cursor-not-allowed');
         document.getElementById('stopRecordBtn').disabled = false;
         document.getElementById('stopRecordBtn').classList.remove('text-slate-500', 'cursor-not-allowed');
         document.getElementById('stopRecordBtn').classList.add('bg-slate-700', 'text-slate-200', 'hover:bg-slate-600');
 
-        // Start Timer & Visualizer
         startRecordTimer();
         setupAudioVisualizer(stream);
 
@@ -603,11 +599,9 @@
     function stopRecording() {
       if (!mediaRecorder || !isRecording) return;
       mediaRecorder.stop();
-      // Stop track stream
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
       isRecording = false;
 
-      // Reset UI States
       document.getElementById('recordBtn').disabled = false;
       document.getElementById('recordBtn').classList.remove('opacity-50', 'cursor-not-allowed');
       document.getElementById('stopRecordBtn').disabled = true;
@@ -616,7 +610,7 @@
       clearInterval(recordTimerInterval);
       if (visualizerAnimation) cancelAnimationFrame(visualizerAnimation);
       resetVisualizerBars();
-      showToast('녹음이 completed되었습니다.', 'success');
+      showToast('녹음이 완료되었습니다.', 'success');
     }
 
     function handleRecordingStop() {
@@ -624,7 +618,6 @@
       const audioUrl = URL.createObjectURL(audioBlob);
       const timestamp = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-      // Append Record Card to UI
       const list = document.getElementById('recordingList');
       document.getElementById('emptyRecordingsNotice')?.classList.add('hidden');
 
@@ -673,7 +666,6 @@
       }, 1000);
     }
 
-    // Audio Visualizer Implementation
     function initVisualizerBars() {
       const container = document.getElementById('visualizer');
       container.innerHTML = '';
@@ -726,7 +718,7 @@
       const badge = document.getElementById('accuracyBadge');
 
       if (!input.length) {
-        diffView.innerHTML = '<span class="text-slate-500 italic">타이핑을 시작하면 실시간으로 비교 결과가 표시됩니다.</span>';
+        diffView.innerHTML = '<span class="text-slate-500 italic text-base">타이핑을 시작하면 실시간으로 비교 결과가 표시됩니다.</span>';
         badge.textContent = '일치율: 0%';
         badge.className = 'text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono';
         return;
@@ -734,8 +726,6 @@
 
       let correctChars = 0;
       let diffHTML = '';
-
-      const minLen = Math.max(target.length, input.length);
 
       for (let i = 0; i < input.length; i++) {
         if (i < target.length) {
@@ -746,7 +736,6 @@
             diffHTML += `<span class="text-red-400 bg-red-950/60 font-bold underline">${escapeHtml(input[i])}</span>`;
           }
         } else {
-          // Extra typed characters
           diffHTML += `<span class="text-red-400 bg-red-900/40">${escapeHtml(input[i])}</span>`;
         }
       }
@@ -855,7 +844,6 @@
 
     // Global Keybindings Listener
     function handleGlobalHotkeys(e) {
-      // Ignore key shortcuts if focused inside input or textarea
       if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
       if (e.code === 'Space') {
