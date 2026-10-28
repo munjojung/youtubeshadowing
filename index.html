@@ -20,7 +20,7 @@
         extend: {
           colors: {
             brand: {
-              50: '#eep2ff',
+              50: '#eef2ff',
               500: '#6366f1',
               600: '#4f46e5',
               700: '#4338ca',
@@ -64,8 +64,8 @@
   <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-4 py-3">
     <div class="max-w-[1800px] mx-auto flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center space-x-3">
-        <div class="bg-gradient-to-tr from-brand-600 to-accent-500 text-white p-2 rounded-xl shadow-lg">
-          <i class="fa-solid fa-[#youtube] text-xl"></i>
+        <div class="bg-gradient-to-tr from-brand-600 to-accent-500 text-white p-2.5 rounded-xl shadow-lg flex items-center gap-2">
+          <i class="fa-brands fa-youtube text-xl"></i>
           <i class="fa-solid fa-headset text-xl"></i>
         </div>
         <div>
@@ -80,7 +80,7 @@
       <div class="flex items-center gap-2 flex-1 max-w-xl">
         <div class="relative w-full">
           <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-            <i class="fa-solid fa-[#link] text-sm"></i>
+            <i class="fa-solid fa-link text-sm"></i>
           </span>
           <input type="text" id="videoUrlInput" 
             placeholder="YouTube 영상 URL 또는 ID 입력 (예: https://www.youtube.com/watch?v=dQw4w9WgXcQ)" 
@@ -93,7 +93,7 @@
 
       <!-- Hotkey Info Trigger -->
       <button id="hotkeyModalBtn" class="text-xs text-slate-400 hover:text-slate-200 bg-slate-800 border border-slate-700 px-3 py-2 rounded-lg transition">
-        <i class="fa-solid fa-[#keyboard] mr-1"></i> 단축키 안내
+        <i class="fa-solid fa-keyboard mr-1"></i> 단축키 안내
       </button>
     </div>
   </header>
@@ -247,7 +247,7 @@
             <!-- Reference Sentence -->
             <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-xl">
               <div class="flex items-center justify-between text-xs text-slate-400 mb-1.5">
-                <span class="font-semibold text-brand-500"><i class="fa-solid fa-[#bullseye] mr-1"></i> 대상 문장 (학습용)</span>
+                <span class="font-semibold text-brand-500"><i class="fa-solid fa-bullseye mr-1"></i> 대상 문장 (학습용)</span>
                 <button id="copyTargetSentence" class="hover:text-slate-200"><i class="fa-regular fa-copy"></i> 복사</button>
               </div>
               <p id="targetText" lang="en" class="text-slate-100 text-base font-medium leading-relaxed bg-slate-900/50 p-3 rounded-lg border border-slate-800">
@@ -258,7 +258,7 @@
             <!-- Typing Input Field -->
             <div class="flex flex-col gap-2 flex-1">
               <label class="text-xs font-semibold text-slate-400 flex items-center justify-between">
-                <span><i class="fa-solid fa-pen-keyboard mr-1"></i> 따라 쓰기 (타이핑)</span>
+                <span><i class="fa-solid fa-keyboard mr-1"></i> 따라 쓰기 (타이핑)</span>
                 <span id="accuracyBadge" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">일치율: 0%</span>
               </label>
               <textarea id="typingInput" rows="5" 
@@ -317,7 +317,7 @@
         </div>
       </div>
 
-      <!-- Video Cards Grid -->
+      <!-- Video Cards Grid (Event Delegated) -->
       <div id="savedVideoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Rendered dynamically by JavaScript -->
       </div>
@@ -508,6 +508,28 @@
 
       document.getElementById('addScriptBtn').addEventListener('click', addNewScriptItem);
       document.addEventListener('keydown', handleGlobalHotkeys);
+
+      // Event Delegation for Saved Video Card Actions (학습하기/삭제 버튼 동작 보장)
+      const savedVideoGrid = document.getElementById('savedVideoGrid');
+      savedVideoGrid.addEventListener('click', (e) => {
+        const learnBtn = e.target.closest('.btn-learn-video');
+        if (learnBtn) {
+          const videoId = learnBtn.getAttribute('data-video-id');
+          if (videoId) {
+            loadVideoById(videoId);
+          }
+          return;
+        }
+
+        const deleteBtn = e.target.closest('.btn-delete-video');
+        if (deleteBtn) {
+          const videoId = deleteBtn.getAttribute('data-video-id');
+          if (videoId) {
+            deleteSavedVideo(videoId);
+          }
+          return;
+        }
+      });
     }
 
     function saveVideoToList(id, title = "", isPlayable = true) {
@@ -628,14 +650,14 @@
 
           <div class="p-3 pt-0 flex items-center justify-between gap-2 border-t border-slate-900/50 mt-2">
             <div class="flex items-center gap-1.5 flex-1">
-              <button onclick="loadVideoById('${video.id}')" class="flex-1 bg-brand-600 hover:bg-brand-500 text-white text-[11px] font-semibold py-1.5 px-2 rounded-lg transition flex items-center justify-center gap-1">
+              <button data-video-id="${video.id}" class="btn-learn-video flex-1 bg-brand-600 hover:bg-brand-500 text-white text-[11px] font-semibold py-1.5 px-2 rounded-lg transition flex items-center justify-center gap-1">
                 <i class="fa-solid fa-play text-[9px]"></i> 학습하기
               </button>
               <a href="https://www.youtube.com/watch?v=${video.id}" target="_blank" rel="noopener noreferrer" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 text-xs transition" title="유튜브에서 직접 열기">
                 <i class="fa-brands fa-youtube"></i>
               </a>
             </div>
-            <button onclick="deleteSavedVideo('${video.id}')" class="p-1.5 text-slate-500 hover:text-red-400 text-xs transition" title="보관함에서 삭제">
+            <button data-video-id="${video.id}" class="btn-delete-video p-1.5 text-slate-500 hover:text-red-400 text-xs transition" title="보관함에서 삭제">
               <i class="fa-solid fa-trash-can"></i>
             </button>
           </div>
@@ -668,6 +690,9 @@
       currentLoadedVideoId = id;
       if (player && player.loadVideoById) {
         player.loadVideoById(id);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showToast('플레이어가 아직 준비 중입니다. 잠시 후 다시 시도해주세요.', 'error');
       }
       saveVideoToList(id);
     }
@@ -746,7 +771,6 @@
       return `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
     }
 
-    // 모바일 호환성을 고려한 지원 미디어 타입 탐색 함수
     function getSupportedMimeType() {
       const types = [
         'audio/mp4',
@@ -763,7 +787,6 @@
       return '';
     }
 
-    // Voice Recording API (모바일 최적화 적용)
     async function startRecording() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
