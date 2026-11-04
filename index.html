@@ -169,13 +169,19 @@
                     placeholder="예: 33:00 또는 1980" 
                     class="w-24 bg-transparent text-xs text-slate-200 focus:outline-none font-mono placeholder:text-slate-500">
                   
-                  <!-- [이동] 버튼 -->
+                  <!-- [이동] 버튼 (내부 재생 시도 & 보관함 저장) -->
                   <a id="moveLinkBtn" href="#" target="_blank" rel="noopener noreferrer"
                      onclick="handleMoveClick(event)"
-                     title="좌클릭: 이동 및 시간 저장 / 우클릭: '분할 뷰에서 링크 열기'"
-                     class="bg-red-600 hover:bg-red-500 text-white text-xs px-3 py-1 rounded transition font-semibold flex items-center gap-1 whitespace-nowrap shadow">
+                     title="터치/클릭: 시간 저장 및 내장 플레이어 이동 (길게 터치시 외부 유튜브 앱 열기)"
+                     class="bg-red-600 hover:bg-red-500 text-white text-xs px-2.5 py-1 rounded transition font-semibold flex items-center gap-1 whitespace-nowrap shadow">
                     <i class="fa-brands fa-youtube"></i> <span data-i18n="moveBtn">이동</span>
                   </a>
+
+                  <!-- 모바일 전용 외부 열기 버튼 (터치 한 번으로 외부 유튜브 앱/새창 이동) -->
+                  <button id="externalOpenBtn" onclick="openExternalYouTube()" title="유튜브 앱/외부 브라우저에서 직접 열기"
+                          class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs px-2 py-1 rounded transition font-medium flex items-center gap-1 border border-slate-600">
+                    <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+                  </button>
                 </div>
 
                 <!-- A-B Loop Button -->
@@ -204,7 +210,7 @@
         <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl p-3.5 text-xs text-slate-400 flex items-center justify-between">
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-circle-info text-brand-500"></i>
-            <span data-i18n="tipText"><b>Tip:</b> 재생 불가 영상이라도 시간을 입력하고 <b>[이동]</b> 버튼을 누르면 해당 시작 위치가 보관함에 영구 저장되어 우클릭 분할뷰나 외부 링크 열기 시 해당 지점부터 실행됩니다.</span>
+            <span data-i18n="tipText"><b>Tip:</b> 휴대폰에서는 <b>[이동]</b> 버튼 옆의 외부 열기 아이콘(<i class="fa-solid fa-up-right-from-square"></i>)을 터치하면 지정한 시간부터 유튜브 앱에서 직접 실행할 수 있습니다.</span>
           </div>
           <span class="text-slate-500 hidden sm:inline" data-i18n="shortcutTip">단축키: 스페이스바(재생/정지)</span>
         </div>
@@ -415,7 +421,7 @@
         loopOff: "구간 반복 Off",
         loopOn: "구간반복 (5s)",
         normalSpeed: "1.0x (보통)",
-        tipText: "<b>Tip:</b> 재생 불가 영상이라도 시간을 입력하고 <b>[이동]</b> 버튼을 누르면 해당 시작 위치가 보관함에 영구 저장되어 우클릭 분할뷰나 외부 링크 열기 시 해당 지점부터 실행됩니다.",
+        tipText: "<b>Tip:</b> 휴대폰에서는 <b>[이동]</b> 버튼 옆의 외부 열기 아이콘(<i class=\"fa-solid fa-up-right-from-square\"></i>)을 터치하면 지정한 시간부터 유튜브 앱에서 직접 실행할 수 있습니다.",
         shortcutTip: "단축키: 스페이스바(재생/정지)",
         tabShadowing: "섀도잉 녹음",
         tabTyping: "타이핑 연습",
@@ -453,7 +459,7 @@
         addedAt: "등록일",
         noSavedVideos: "저장된 영상이 없습니다. 상단에서 URL을 입력하여 불러와보세요.",
         selectForTyping: "타이핑 연습으로 선택",
-        msgBlocked: "이 영상은 외부 플레이어 재생(임베딩)이 차단된 영상입니다.",
+        msgBlocked: "이 영상은 외부 재생이 차단되었습니다. 옆의 외부열기 버튼을 터치하세요.",
         msgVideoLoaded: "영상을 불러왔습니다.",
         msgInvalidUrl: "유효한 유튜브 URL 또는 ID를 입력해주세요.",
         msgPlayerNotReady: "플레이어가 아직 준비 중입니다. 잠시 후 다시 시도해주세요.",
@@ -493,7 +499,7 @@
         loopOff: "Loop Off",
         loopOn: "Loop (5s)",
         normalSpeed: "1.0x (Normal)",
-        tipText: "<b>Tip:</b> Even for unplayable videos, enter the time and click <b>[Move]</b> to save the starting point permanently in your library.",
+        tipText: "<b>Tip:</b> On mobile, tap the external open icon (<i class=\"fa-solid fa-up-right-from-square\"></i>) next to <b>[Move]</b> to play directly in the YouTube app.",
         shortcutTip: "Shortcut: Spacebar (Play/Pause)",
         tabShadowing: "Shadowing Rec",
         tabTyping: "Typing Practice",
@@ -531,7 +537,7 @@
         addedAt: "Added",
         noSavedVideos: "No saved videos. Enter a URL above to add one.",
         selectForTyping: "Select for Typing",
-        msgBlocked: "Embedding is disabled for this video.",
+        msgBlocked: "Embedding disabled. Tap external open button next to Move.",
         msgVideoLoaded: "Video loaded successfully.",
         msgInvalidUrl: "Please enter a valid YouTube URL or ID.",
         msgPlayerNotReady: "Player is not ready yet. Please try again shortly.",
@@ -1069,6 +1075,29 @@
       moveLinkBtn.href = `https://www.youtube.com/watch?v=${currentLoadedVideoId}&t=${seconds}s`;
     }
 
+    // 터치 한 번으로 외부 유튜브 앱/새창 링크 바로 실행
+    function openExternalYouTube() {
+      const inputUrl = document.getElementById('videoUrlInput').value.trim();
+      const videoIdFromInput = extractVideoId(inputUrl);
+      const targetVideoId = videoIdFromInput || currentLoadedVideoId;
+
+      if (!targetVideoId) {
+        showToast(i18n[currentLang].msgNeedUrl, 'error');
+        return;
+      }
+
+      const inputVal = document.getElementById('customTimeInput').value.trim();
+      const targetSeconds = parseInputSeconds(inputVal);
+
+      // 보관함 저장
+      const existing = savedVideos.find(v => v.id === targetVideoId);
+      saveVideoToList(targetVideoId, existing ? existing.title : `YouTube Video (${targetVideoId})`, false, targetSeconds);
+
+      // 외부 링크 열기 (새 탭/유튜브 앱)
+      const youtubeUrl = `https://www.youtube.com/watch?v=${targetVideoId}&t=${targetSeconds}s`;
+      window.open(youtubeUrl, '_blank');
+    }
+
     function handleMoveClick(event) {
       event.preventDefault(); 
       executeMoveAction();
@@ -1131,7 +1160,6 @@
     }
 
     async function startRecording() {
-      // 보안 컨텍스트 검사 (file:// 환경 차단 안내)
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         showToast(i18n[currentLang].msgMicNeeded, 'error');
         return;
@@ -1152,7 +1180,6 @@
         };
         mediaRecorder.onstop = handleRecordingStop;
 
-        // timeslice(100ms) 추가하여 안정적으로 데이터 청크 수집
         mediaRecorder.start(100);
         isRecording = true;
         recordStartTime = Date.now();
