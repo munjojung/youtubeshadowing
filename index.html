@@ -72,7 +72,7 @@
           <h1 class="text-lg font-bold bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
             YouTube Shadowing Studio
           </h1>
-          <p class="text-xs text-slate-400">듣고 따라하기 · 타이핑 연습 · 음성 녹음</p>
+          <p class="text-xs text-slate-400" data-i18n="subtitle">듣고 따라하기 · 타이핑 연습 · 음성 녹음</p>
         </div>
       </div>
 
@@ -83,18 +83,28 @@
             <i class="fa-solid fa-link text-sm"></i>
           </span>
           <input type="text" id="videoUrlInput" 
+            data-i18n-placeholder="urlPlaceholder"
             placeholder="YouTube 영상 URL 또는 ID 입력 (예: https://www.youtube.com/watch?v=dQw4w9WgXcQ)" 
             class="w-full bg-slate-800 text-slate-200 text-sm rounded-lg pl-9 pr-3 py-2 border border-slate-700 focus:outline-none focus:border-brand-500 transition-colors">
         </div>
         <button id="loadVideoBtn" class="bg-brand-600 hover:bg-brand-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-brand-500/20 flex items-center gap-1.5 whitespace-nowrap">
-          <i class="fa-solid fa-play text-xs"></i> 불러오기
+          <i class="fa-solid fa-play text-xs"></i> <span data-i18n="loadBtn">불러오기</span>
         </button>
       </div>
 
-      <!-- Hotkey Info Trigger -->
-      <button id="hotkeyModalBtn" class="text-xs text-slate-400 hover:text-slate-200 bg-slate-800 border border-slate-700 px-3 py-2 rounded-lg transition">
-        <i class="fa-solid fa-keyboard mr-1"></i> 단축키 안내
-      </button>
+      <!-- Controls Right: Hotkey & Language Toggle -->
+      <div class="flex items-center gap-2">
+        <!-- Hotkey Info Trigger -->
+        <button id="hotkeyModalBtn" class="text-xs text-slate-400 hover:text-slate-200 bg-slate-800 border border-slate-700 px-3 py-2 rounded-lg transition">
+          <i class="fa-solid fa-keyboard mr-1"></i> <span data-i18n="hotkeyBtn">단축키 안내</span>
+        </button>
+
+        <!-- Language Toggle Button -->
+        <button id="langToggleBtn" class="text-xs font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-2 rounded-lg transition flex items-center gap-1.5">
+          <i class="fa-solid fa-globe text-brand-500"></i>
+          <span id="langText">EN</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -112,9 +122,9 @@
             <!-- Overlay Placeholder before player load -->
             <div id="playerPlaceholder" class="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center text-center p-6 z-10">
               <i class="fa-brands fa-youtube text-6xl text-red-500 mb-3 animate-pulse"></i>
-              <p class="text-slate-300 font-medium text-lg">유튜브 영상 URL을 상단에 입력하여 학습을 시작하세요.</p>
-              <p class="text-slate-500 text-xs mt-1">기본 데모 영상이 자동으로 준비되어 있습니다.</p>
-              <button id="loadDefaultDemoBtn" class="mt-4 px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-medium rounded-lg transition">
+              <p class="text-slate-300 font-medium text-lg" data-i18n="placeholderText">유튜브 영상 URL을 상단에 입력하여 학습을 시작하세요.</p>
+              <p class="text-slate-500 text-xs mt-1" data-i18n="placeholderSubText">기본 데모 영상이 자동으로 준비되어 있습니다.</p>
+              <button id="loadDefaultDemoBtn" class="mt-4 px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-medium rounded-lg transition" data-i18n="demoBtn">
                 데모 영상 로드
               </button>
             </div>
@@ -136,16 +146,16 @@
               <!-- Playback Buttons -->
               <div class="flex items-center gap-1.5">
                 <button id="rewindBtn" title="5초 뒤로 (Ctrl + ←)" class="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition">
-                  <i class="fa-solid fa-rotate-left text-sm"></i> <span class="text-xs ml-1 font-semibold">-5초</span>
+                  <i class="fa-solid fa-rotate-left text-sm"></i> <span class="text-xs ml-1 font-semibold" data-i18n="rewind">-5초</span>
                 </button>
                 
                 <button id="playPauseBtn" title="재생/일시정지 (Space)" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-lg font-semibold transition shadow-md shadow-brand-500/20 flex items-center gap-2">
                   <i id="playIcon" class="fa-solid fa-play text-sm"></i>
-                  <span id="playText" class="text-xs">재생</span>
+                  <span id="playText" class="text-xs" data-i18n="play">재생</span>
                 </button>
 
                 <button id="forwardBtn" title="5초 앞으로 (Ctrl + →)" class="p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition">
-                  <span class="text-xs mr-1 font-semibold">+5초</span> <i class="fa-solid fa-rotate-right text-sm"></i>
+                  <span class="text-xs mr-1 font-semibold" data-i18n="forward">+5초</span> <i class="fa-solid fa-rotate-right text-sm"></i>
                 </button>
               </div>
 
@@ -154,22 +164,24 @@
                 <!-- User Custom Time Input Box & Link-enabled Move Button -->
                 <div class="flex items-center bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 gap-1.5">
                   <i class="fa-solid fa-clock text-slate-400 text-xs"></i>
-                  <input type="text" id="customTimeInput" placeholder="예: 33:00 또는 1980" 
+                  <input type="text" id="customTimeInput" 
+                    data-i18n-placeholder="timeInputPlaceholder"
+                    placeholder="예: 33:00 또는 1980" 
                     class="w-24 bg-transparent text-xs text-slate-200 focus:outline-none font-mono placeholder:text-slate-500">
                   
-                  <!-- [이동] 버튼 (재생 불가 영상이라도 입력한 시간이 즉시 보관함에 기록됨) -->
+                  <!-- [이동] 버튼 -->
                   <a id="moveLinkBtn" href="#" target="_blank" rel="noopener noreferrer"
                      onclick="handleMoveClick(event)"
                      title="좌클릭: 이동 및 시간 저장 / 우클릭: '분할 뷰에서 링크 열기'"
                      class="bg-red-600 hover:bg-red-500 text-white text-xs px-3 py-1 rounded transition font-semibold flex items-center gap-1 whitespace-nowrap shadow">
-                    <i class="fa-brands fa-youtube"></i> 이동
+                    <i class="fa-brands fa-youtube"></i> <span data-i18n="moveBtn">이동</span>
                   </a>
                 </div>
 
                 <!-- A-B Loop Button -->
                 <button id="loopBtn" title="현재 구간 반복 재생" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-lg text-xs font-medium transition flex items-center gap-1.5">
                   <i class="fa-solid fa-repeat text-slate-400"></i>
-                  <span id="loopText">구간 반복 Off</span>
+                  <span id="loopText" data-i18n="loopOff">구간 반복 Off</span>
                 </button>
 
                 <!-- Speed Selector -->
@@ -178,7 +190,7 @@
                   <select id="speedSelect" class="bg-transparent text-xs text-slate-200 focus:outline-none cursor-pointer">
                     <option value="0.5" class="bg-slate-800">0.5x</option>
                     <option value="0.75" class="bg-slate-800">0.75x</option>
-                    <option value="1.0" selected class="bg-slate-800">1.0x (보통)</option>
+                    <option value="1.0" selected class="bg-slate-800" data-i18n="normalSpeed">1.0x (보통)</option>
                     <option value="1.25" class="bg-slate-800">1.25x</option>
                     <option value="1.5" class="bg-slate-800">1.5x</option>
                   </select>
@@ -192,9 +204,9 @@
         <div class="bg-slate-900/60 border border-slate-800/80 rounded-xl p-3.5 text-xs text-slate-400 flex items-center justify-between">
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-circle-info text-brand-500"></i>
-            <span><b>Tip:</b> 재생 불가 영상이라도 시간을 입력하고 <b>[이동]</b> 버튼을 누르면 해당 시작 위치가 보관함에 영구 저장되어 우클릭 분할뷰나 외부 링크 열기 시 해당 지점부터 실행됩니다.</span>
+            <span data-i18n="tipText"><b>Tip:</b> 재생 불가 영상이라도 시간을 입력하고 <b>[이동]</b> 버튼을 누르면 해당 시작 위치가 보관함에 영구 저장되어 우클릭 분할뷰나 외부 링크 열기 시 해당 지점부터 실행됩니다.</span>
           </div>
-          <span class="text-slate-500 hidden sm:inline">단축키: 스페이스바(재생/정지)</span>
+          <span class="text-slate-500 hidden sm:inline" data-i18n="shortcutTip">단축키: 스페이스바(재생/정지)</span>
         </div>
 
       </section>
@@ -205,13 +217,13 @@
         <!-- Tab Header -->
         <div class="flex border-b border-slate-800 bg-slate-950/50 p-1.5 gap-1">
           <button id="tabShadowing" onclick="switchTab('shadowing')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition bg-brand-600 text-white shadow">
-            <i class="fa-solid fa-microphone"></i> 섀도잉 녹음
+            <i class="fa-solid fa-microphone"></i> <span data-i18n="tabShadowing">섀도잉 녹음</span>
           </button>
           <button id="tabTyping" onclick="switchTab('typing')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
-            <i class="fa-solid fa-keyboard"></i> 타이핑 연습
+            <i class="fa-solid fa-keyboard"></i> <span data-i18n="tabTyping">타이핑 연습</span>
           </button>
           <button id="tabScript" onclick="switchTab('script')" class="flex-1 py-2.5 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
-            <i class="fa-solid fa-file-lines"></i> 스크립트/노트
+            <i class="fa-solid fa-file-lines"></i> <span data-i18n="tabScript">스크립트/노트</span>
           </button>
         </div>
 
@@ -221,11 +233,11 @@
           <!-- 1. Voice Recording Mode -->
           <div id="contentShadowing" class="flex flex-col gap-4 flex-1">
             <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 flex flex-col items-center justify-center gap-3">
-              <p class="text-xs text-slate-400 text-center">영상을 들으며 발음을 따라 녹음하고 내 목소리를 피드백해보세요.</p>
+              <p class="text-xs text-slate-400 text-center" data-i18n="recordDesc">영상을 들으며 발음을 따라 녹음하고 내 목소리를 피드백해보세요.</p>
               
               <!-- Audio Waveform Visualizer -->
               <div id="visualizer" class="w-full h-16 bg-slate-900 border border-slate-800 rounded-lg flex items-center justify-center gap-1 px-4 overflow-hidden">
-                <div class="text-slate-600 text-xs italic" id="visualizerPlaceholder">마이크 준비됨</div>
+                <div class="text-slate-600 text-xs italic" id="visualizerPlaceholder" data-i18n="micReady">마이크 준비됨</div>
               </div>
 
               <!-- Timer Display -->
@@ -234,10 +246,10 @@
               <!-- Recording Control Buttons -->
               <div class="flex items-center gap-3 mt-1">
                 <button id="recordBtn" class="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-full transition shadow-lg shadow-red-600/30 flex items-center gap-2">
-                  <i class="fa-solid fa-circle text-[10px]"></i> 녹음 시작
+                  <i class="fa-solid fa-circle text-[10px]"></i> <span data-i18n="startRecord">녹음 시작</span>
                 </button>
                 <button id="stopRecordBtn" disabled class="px-5 py-2.5 bg-slate-800 text-slate-500 text-xs font-bold rounded-full border border-slate-700 transition flex items-center gap-2 cursor-not-allowed">
-                  <i class="fa-solid fa-square text-[10px]"></i> 중지
+                  <i class="fa-solid fa-square text-[10px]"></i> <span data-i18n="stopRecord">중지</span>
                 </button>
               </div>
             </div>
@@ -245,12 +257,12 @@
             <!-- Audio Playback List -->
             <div class="flex flex-col gap-2 flex-1">
               <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
-                <span><i class="fa-solid fa-list-ul mr-1"></i> 녹음된 오디오 목록</span>
+                <span><i class="fa-solid fa-list-ul mr-1"></i> <span data-i18n="recordingListTitle">녹음된 오디오 목록</span></span>
                 <span id="recordingCount" class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">0개</span>
               </h3>
 
               <div id="recordingList" class="flex flex-col gap-2 overflow-y-auto max-h-[220px] pr-1">
-                <div id="emptyRecordingsNotice" class="text-center py-8 text-xs text-slate-500 border border-dashed border-slate-800 rounded-xl">
+                <div id="emptyRecordingsNotice" class="text-center py-8 text-xs text-slate-500 border border-dashed border-slate-800 rounded-xl" data-i18n="emptyRecordings">
                   아직 녹음된 파일이 없습니다.<br>상단 [녹음 시작] 버튼을 눌러 연습을 시작하세요.
                 </div>
               </div>
@@ -262,8 +274,8 @@
             <!-- Reference Sentence -->
             <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-xl">
               <div class="flex items-center justify-between text-xs text-slate-400 mb-1.5">
-                <span class="font-semibold text-brand-500"><i class="fa-solid fa-bullseye mr-1"></i> 대상 문장 (학습용)</span>
-                <button id="copyTargetSentence" class="hover:text-slate-200"><i class="fa-regular fa-copy"></i> 복사</button>
+                <span class="font-semibold text-brand-500"><i class="fa-solid fa-bullseye mr-1"></i> <span data-i18n="targetSentence">대상 문장 (학습용)</span></span>
+                <button id="copyTargetSentence" class="hover:text-slate-200"><i class="fa-regular fa-copy"></i> <span data-i18n="copyBtn">복사</span></button>
               </div>
               <p id="targetText" lang="en" class="text-slate-100 text-base font-medium leading-relaxed bg-slate-900/50 p-3 rounded-lg border border-slate-800">
                 Select a sentence from the Script tab or type your custom text here.
@@ -273,21 +285,22 @@
             <!-- Typing Input Field -->
             <div class="flex flex-col gap-2 flex-1">
               <label class="text-xs font-semibold text-slate-400 flex items-center justify-between">
-                <span><i class="fa-solid fa-keyboard mr-1"></i> 따라 쓰기 (타이핑)</span>
-                <span id="accuracyBadge" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">일치율: 0%</span>
+                <span><i class="fa-solid fa-keyboard mr-1"></i> <span data-i18n="typingLabel">따라 쓰기 (타이핑)</span></span>
+                <span id="accuracyBadge" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono"><span data-i18n="accuracy">일치율</span>: 0%</span>
               </label>
               <textarea id="typingInput" rows="5" 
                 lang="en"
                 autocorrect="off"
                 autocapitalize="none"
                 spellcheck="false"
+                data-i18n-placeholder="typingPlaceholder"
                 placeholder="듣고 들리는 대로 문장을 작성해보세요... (영어 전용)" 
                 class="w-full bg-slate-950 border border-slate-800 text-slate-100 text-base p-3 rounded-xl focus:outline-none focus:border-brand-500 transition-colors resize-none leading-relaxed font-mono"></textarea>
               
               <!-- Real-time Comparison Preview -->
               <div class="bg-slate-950/60 border border-slate-800 p-3 rounded-xl min-h-[75px]">
-                <span class="text-[11px] text-slate-500 block mb-1">실시간 교정 / 비교 피드백:</span>
-                <div id="diffView" lang="en" class="text-base font-mono leading-relaxed break-words text-slate-400 italic">
+                <span class="text-[11px] text-slate-500 block mb-1" data-i18n="feedbackTitle">실시간 교정 / 비교 피드백:</span>
+                <div id="diffView" lang="en" class="text-base font-mono leading-relaxed break-words text-slate-400 italic" data-i18n="typingDefaultNotice">
                   타이핑을 시작하면 실시간으로 비교 결과가 표시됩니다.
                 </div>
               </div>
@@ -298,9 +311,9 @@
           <div id="contentScript" class="hidden flex-col gap-3 flex-1">
             <div class="flex items-center justify-between border-b border-slate-800 pb-2">
               <h3 class="text-xs font-semibold text-slate-300">
-                <i class="fa-solid fa-align-left mr-1"></i> 주요 구간 스크립트
+                <i class="fa-solid fa-align-left mr-1"></i> <span data-i18n="scriptTitle">주요 구간 스크립트</span>
               </h3>
-              <button id="addScriptBtn" class="text-xs bg-slate-800 hover:bg-slate-700 text-brand-500 font-medium px-2.5 py-1 rounded-lg border border-slate-800 transition">
+              <button id="addScriptBtn" class="text-xs bg-slate-800 hover:bg-slate-700 text-brand-500 font-medium px-2.5 py-1 rounded-lg border border-slate-800 transition" data-i18n="addScriptBtn">
                 + 문장 추가
               </button>
             </div>
@@ -320,15 +333,15 @@
       <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
         <div class="flex items-center gap-2">
           <i class="fa-brands fa-youtube text-red-500 text-xl"></i>
-          <h2 class="text-base font-bold text-slate-100">저장된 영상 보관함</h2>
+          <h2 class="text-base font-bold text-slate-100" data-i18n="savedVideosTitle">저장된 영상 보관함</h2>
           <span id="savedVideoCountBadge" class="text-xs bg-slate-800 text-slate-400 font-mono px-2 py-0.5 rounded-full border border-slate-700">0개</span>
         </div>
 
         <!-- Filter Buttons -->
         <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-lg border border-slate-800">
-          <button onclick="filterSavedVideos('all')" id="filterBtnAll" class="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-200 shadow">전체 보기</button>
-          <button onclick="filterSavedVideos('playable')" id="filterBtnPlayable" class="px-3 py-1 rounded-md text-xs font-medium text-slate-400 hover:text-slate-200">재생 가능</button>
-          <button onclick="filterSavedVideos('unplayable')" id="filterBtnUnplayable" class="px-3 py-1 rounded-md text-xs font-medium text-slate-400 hover:text-slate-200">재생 불가</button>
+          <button onclick="filterSavedVideos('all')" id="filterBtnAll" class="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-200 shadow" data-i18n="filterAll">전체 보기</button>
+          <button onclick="filterSavedVideos('playable')" id="filterBtnPlayable" class="px-3 py-1 rounded-md text-xs font-medium text-slate-400 hover:text-slate-200" data-i18n="filterPlayable">재생 가능</button>
+          <button onclick="filterSavedVideos('unplayable')" id="filterBtnUnplayable" class="px-3 py-1 rounded-md text-xs font-medium text-slate-400 hover:text-slate-200" data-i18n="filterUnplayable">재생 불가</button>
         </div>
       </div>
 
@@ -347,27 +360,27 @@
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
       <h3 class="text-base font-bold text-slate-100 mb-4 flex items-center gap-2">
-        <i class="fa-solid fa-keyboard text-brand-500"></i> 단축키 안내
+        <i class="fa-solid fa-keyboard text-brand-500"></i> <span data-i18n="modalTitle">단축키 안내</span>
       </h3>
       <div class="space-y-3 text-xs text-slate-300">
         <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-          <span>영상 재생 / 일시정지</span>
+          <span data-i18n="hkPlayPause">영상 재생 / 일시정지</span>
           <kbd class="px-2 py-1 bg-slate-800 rounded border border-slate-700 font-mono text-slate-200">Space</kbd>
         </div>
         <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-          <span>5초 뒤로 이동</span>
+          <span data-i18n="hkRewind">5초 뒤로 이동</span>
           <kbd class="px-2 py-1 bg-slate-800 rounded border border-slate-700 font-mono text-slate-200">Ctrl + ←</kbd>
         </div>
         <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-          <span>5초 앞으로 이동</span>
+          <span data-i18n="hkForward">5초 앞으로 이동</span>
           <kbd class="px-2 py-1 bg-slate-800 rounded border border-slate-700 font-mono text-slate-200">Ctrl + →</kbd>
         </div>
         <div class="flex justify-between items-center bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-          <span>녹음 시작 / 중지</span>
+          <span data-i18n="hkRecord">녹음 시작 / 중지</span>
           <kbd class="px-2 py-1 bg-slate-800 rounded border border-slate-700 font-mono text-slate-200">Alt + R</kbd>
         </div>
       </div>
-      <button id="closeHotkeyModalBtn" class="w-full mt-5 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-lg text-xs font-semibold transition">
+      <button id="closeHotkeyModalBtn" class="w-full mt-5 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-lg text-xs font-semibold transition" data-i18n="confirmBtn">
         확인
       </button>
     </div>
@@ -383,7 +396,168 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
-    // Global Application State
+    // i18n Translations Dictionary
+    const i18n = {
+      ko: {
+        subtitle: "듣고 따라하기 · 타이핑 연습 · 음성 녹음",
+        urlPlaceholder: "YouTube 영상 URL 또는 ID 입력 (예: https://www.youtube.com/watch?v=dQw4w9WgXcQ)",
+        loadBtn: "불러오기",
+        hotkeyBtn: "단축키 안내",
+        placeholderText: "유튜브 영상 URL을 상단에 입력하여 학습을 시작하세요.",
+        placeholderSubText: "기본 데모 영상이 자동으로 준비되어 있습니다.",
+        demoBtn: "데모 영상 로드",
+        rewind: "-5초",
+        play: "재생",
+        pause: "일시정지",
+        forward: "+5초",
+        timeInputPlaceholder: "예: 33:00 또는 1980",
+        moveBtn: "이동",
+        loopOff: "구간 반복 Off",
+        loopOn: "구간반복 (5s)",
+        normalSpeed: "1.0x (보통)",
+        tipText: "<b>Tip:</b> 재생 불가 영상이라도 시간을 입력하고 <b>[이동]</b> 버튼을 누르면 해당 시작 위치가 보관함에 영구 저장되어 우클릭 분할뷰나 외부 링크 열기 시 해당 지점부터 실행됩니다.",
+        shortcutTip: "단축키: 스페이스바(재생/정지)",
+        tabShadowing: "섀도잉 녹음",
+        tabTyping: "타이핑 연습",
+        tabScript: "스크립트/노트",
+        recordDesc: "영상을 들으며 발음을 따라 녹음하고 내 목소리를 피드백해보세요.",
+        micReady: "마이크 준비됨",
+        startRecord: "녹음 시작",
+        stopRecord: "중지",
+        recordingListTitle: "녹음된 오디오 목록",
+        emptyRecordings: "아직 녹음된 파일이 없습니다.<br>상단 [녹음 시작] 버튼을 눌러 연습을 시작하세요.",
+        targetSentence: "대상 문장 (학습용)",
+        copyBtn: "복사",
+        typingLabel: "따라 쓰기 (타이핑)",
+        accuracy: "일치율",
+        typingPlaceholder: "듣고 들리는 대로 문장을 작성해보세요... (영어 전용)",
+        feedbackTitle: "실시간 교정 / 비교 피드백:",
+        typingDefaultNotice: "타이핑을 시작하면 실시간으로 비교 결과가 표시됩니다.",
+        scriptTitle: "주요 구간 스크립트",
+        addScriptBtn: "+ 문장 추가",
+        savedVideosTitle: "저장된 영상 보관함",
+        filterAll: "전체 보기",
+        filterPlayable: "재생 가능",
+        filterUnplayable: "재생 불가",
+        modalTitle: "단축키 안내",
+        hkPlayPause: "영상 재생 / 일시정지",
+        hkRewind: "5초 뒤로 이동",
+        hkForward: "5초 앞으로 이동",
+        hkRecord: "녹음 시작 / 중지",
+        confirmBtn: "확인",
+        playableBadge: "재생 가능",
+        unplayableBadge: "재생 불가",
+        startPos: "시작 위치",
+        fromStart: "처음부터",
+        learnBtn: "학습하기",
+        addedAt: "등록일",
+        noSavedVideos: "저장된 영상이 없습니다. 상단에서 URL을 입력하여 불러와보세요.",
+        selectForTyping: "타이핑 연습으로 선택",
+        msgBlocked: "이 영상은 외부 플레이어 재생(임베딩)이 차단된 영상입니다.",
+        msgVideoLoaded: "영상을 불러왔습니다.",
+        msgInvalidUrl: "유효한 유튜브 URL 또는 ID를 입력해주세요.",
+        msgPlayerNotReady: "플레이어가 아직 준비 중입니다. 잠시 후 다시 시도해주세요.",
+        msgTimeMoved: "초 이동",
+        msgSpeedChanged: "재생 속도: ",
+        msgLoop5s: "현재 위치부터 5초 구간 반복 실행",
+        msgLoopOff: "구간 반복 해제",
+        msgNeedUrl: "먼저 유튜브 영상 URL을 입력하거나 불러주세요.",
+        msgNeedTime: "이동할 시간을 입력해주세요 (예: 33:00)",
+        msgSavedAt: "시작 위치 {time}로 보관함에 저장되었습니다.",
+        msgMicNeeded: "마이크 접근 권한이 없거나, HTTPS/localhost 환경이 아닙니다.",
+        msgRecStarted: "녹음을 시작합니다.",
+        msgRecStopped: "녹음이 완료되었습니다.",
+        msgDeleted: "영상이 보관함에서 삭제되었습니다.",
+        msgCopied: "클립보드에 복사되었습니다.",
+        msgCopyFailed: "복사에 실패했습니다.",
+        msgScriptAdded: "스크립트 문장이 추가되었습니다.",
+        msgScriptTypingSet: "선택한 문장이 타이핑 목표로 설정되었습니다.",
+        msgScriptOpened: "{time} 위치로 유튜브 페이지를 열었습니다.",
+        promptAddScript: "추가할 스크립트 문장을 입력하세요:",
+        recNumber: "녹음 #{count}"
+      },
+      en: {
+        subtitle: "Shadowing · Typing Practice · Voice Recording",
+        urlPlaceholder: "Enter YouTube URL or Video ID (e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ)",
+        loadBtn: "Load",
+        hotkeyBtn: "Hotkeys",
+        placeholderText: "Enter a YouTube URL above to start learning.",
+        placeholderSubText: "A default demo video is ready for you.",
+        demoBtn: "Load Demo Video",
+        rewind: "-5s",
+        play: "Play",
+        pause: "Pause",
+        forward: "+5s",
+        timeInputPlaceholder: "e.g., 33:00 or 1980",
+        moveBtn: "Move",
+        loopOff: "Loop Off",
+        loopOn: "Loop (5s)",
+        normalSpeed: "1.0x (Normal)",
+        tipText: "<b>Tip:</b> Even for unplayable videos, enter the time and click <b>[Move]</b> to save the starting point permanently in your library.",
+        shortcutTip: "Shortcut: Spacebar (Play/Pause)",
+        tabShadowing: "Shadowing Rec",
+        tabTyping: "Typing Practice",
+        tabScript: "Script/Notes",
+        recordDesc: "Listen to the clip, record your pronunciation, and review your voice.",
+        micReady: "Microphone Ready",
+        startRecord: "Start Rec",
+        stopRecord: "Stop",
+        recordingListTitle: "Recorded Audio List",
+        emptyRecordings: "No audio recordings yet.<br>Click [Start Rec] above to begin practicing.",
+        targetSentence: "Target Sentence (Practice)",
+        copyBtn: "Copy",
+        typingLabel: "Typing Practice",
+        accuracy: "Accuracy",
+        typingPlaceholder: "Type what you hear... (English only)",
+        feedbackTitle: "Real-time Comparison Feedback:",
+        typingDefaultNotice: "Real-time comparison results will appear once you start typing.",
+        scriptTitle: "Key Segment Scripts",
+        addScriptBtn: "+ Add Sentence",
+        savedVideosTitle: "Saved Video Library",
+        filterAll: "View All",
+        filterPlayable: "Playable",
+        filterUnplayable: "Unplayable",
+        modalTitle: "Hotkey Shortcuts",
+        hkPlayPause: "Play / Pause Video",
+        hkRewind: "Rewind 5 Seconds",
+        hkForward: "Forward 5 Seconds",
+        hkRecord: "Start / Stop Recording",
+        confirmBtn: "Got it",
+        playableBadge: "Playable",
+        unplayableBadge: "Unplayable",
+        startPos: "Start",
+        fromStart: "From Beginning",
+        learnBtn: "Practice",
+        addedAt: "Added",
+        noSavedVideos: "No saved videos. Enter a URL above to add one.",
+        selectForTyping: "Select for Typing",
+        msgBlocked: "Embedding is disabled for this video.",
+        msgVideoLoaded: "Video loaded successfully.",
+        msgInvalidUrl: "Please enter a valid YouTube URL or ID.",
+        msgPlayerNotReady: "Player is not ready yet. Please try again shortly.",
+        msgTimeMoved: "s jumped",
+        msgSpeedChanged: "Playback speed: ",
+        msgLoop5s: "5-second loop activated from current time",
+        msgLoopOff: "Loop deactivated",
+        msgNeedUrl: "Please load or enter a YouTube video URL first.",
+        msgNeedTime: "Please enter a time to jump to (e.g., 33:00)",
+        msgSavedAt: "Saved starting point at {time} in library.",
+        msgMicNeeded: "Microphone permission denied or not in HTTPS/localhost environment.",
+        msgRecStarted: "Recording started.",
+        msgRecStopped: "Recording completed.",
+        msgDeleted: "Video removed from library.",
+        msgCopied: "Copied to clipboard.",
+        msgCopyFailed: "Failed to copy text.",
+        msgScriptAdded: "Script sentence added.",
+        msgScriptTypingSet: "Selected sentence set as typing target.",
+        msgScriptOpened: "Opened YouTube page at {time}.",
+        promptAddScript: "Enter the script sentence to add:",
+        recNumber: "Recording #{count}"
+      }
+    };
+
+    let currentLang = localStorage.getItem('yt_shadowing_lang') || 'ko';
+
     let player;
     let isPlayerReady = false;
     let currentLoadedVideoId = null;
@@ -392,14 +566,12 @@
     let loopStartTime = 0;
     let loopEndTime = 0;
 
-    // Saved Videos Manager State (Persisted in localStorage with startSeconds support)
     let savedVideos = JSON.parse(localStorage.getItem('yt_shadowing_saved_videos')) || [
       { id: "dQw4w9WgXcQ", title: "Rick Astley - Never Gonna Give You Up", isPlayable: true, addedAt: "2026. 10. 27.", startSeconds: 0 },
       { id: "kqF4zpS92H0", title: "English Conversation Practice Clip", isPlayable: true, addedAt: "2026. 10. 27.", startSeconds: 0 }
     ];
     let currentFilter = 'all';
 
-    // Audio Recorder State
     let mediaRecorder = null;
     let audioChunks = [];
     let isRecording = false;
@@ -409,7 +581,6 @@
     let analyser = null;
     let visualizerAnimation = null;
 
-    // Sample Default Script Data
     let scripts = [
       { id: 1, time: 0, text: "Welcome to the English Shadowing practice session." },
       { id: 2, time: 5, text: "Repeat each sentence clearly after listening to the clip." },
@@ -418,7 +589,6 @@
 
     const DEFAULT_VIDEO_ID = "dQw4w9WgXcQ";
 
-    // Initializer when YouTube API is Ready
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('youtubePlayer', {
         height: '100%',
@@ -455,7 +625,7 @@
 
       if (event.data === YT.PlayerState.PLAYING) {
         playIcon.className = 'fa-solid fa-pause text-sm';
-        playText.textContent = '일시정지';
+        playText.textContent = i18n[currentLang].pause;
         
         if (player && player.getVideoData) {
           const videoData = player.getVideoData();
@@ -465,14 +635,14 @@
         }
       } else {
         playIcon.className = 'fa-solid fa-play text-sm';
-        playText.textContent = '재생';
+        playText.textContent = i18n[currentLang].play;
       }
     }
 
     function onPlayerError(event) {
       console.warn("YouTube Player Error Code:", event.data);
       if ([2, 5, 100, 101, 150].includes(event.data)) {
-        showToast('이 영상은 외부 플레이어 재생(임베딩)이 차단된 영상입니다.', 'error');
+        showToast(i18n[currentLang].msgBlocked, 'error');
         if (currentLoadedVideoId) {
           markVideoUnplayable(currentLoadedVideoId);
         }
@@ -481,12 +651,51 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       setupEventListeners();
+      applyLanguage(currentLang);
       renderScriptList();
       initVisualizerBars();
       renderSavedVideos();
     });
 
+    function toggleLanguage() {
+      currentLang = currentLang === 'ko' ? 'en' : 'ko';
+      localStorage.setItem('yt_shadowing_lang', currentLang);
+      applyLanguage(currentLang);
+    }
+
+    function applyLanguage(lang) {
+      document.getElementById('langText').textContent = lang === 'ko' ? 'EN' : '한국어';
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[lang][key]) {
+          el.innerHTML = i18n[lang][key];
+        }
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (i18n[lang][key]) {
+          el.placeholder = i18n[lang][key];
+        }
+      });
+
+      const playText = document.getElementById('playText');
+      if (player && isPlayerReady && player.getPlayerState && player.getPlayerState() === YT.PlayerState.PLAYING) {
+        playText.textContent = i18n[lang].pause;
+      } else {
+        playText.textContent = i18n[lang].play;
+      }
+
+      const loopText = document.getElementById('loopText');
+      loopText.textContent = isLooping ? i18n[lang].loopOn : i18n[lang].loopOff;
+
+      renderSavedVideos();
+      renderScriptList();
+    }
+
     function setupEventListeners() {
+      document.getElementById('langToggleBtn').addEventListener('click', toggleLanguage);
       document.getElementById('loadVideoBtn').addEventListener('click', loadVideoFromInput);
       document.getElementById('videoUrlInput').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') loadVideoFromInput();
@@ -501,7 +710,6 @@
       document.getElementById('speedSelect').addEventListener('change', changePlaybackSpeed);
       document.getElementById('loopBtn').addEventListener('click', toggleLoopSegment);
 
-      // 엔터키 입력 시 이동 실행
       document.getElementById('customTimeInput').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
@@ -509,7 +717,6 @@
         }
       });
 
-      // 입력창 값 변경 시 실시간으로 [이동] 버튼의 하이퍼링크(href) 갱신
       document.getElementById('customTimeInput').addEventListener('input', () => {
         const inputVal = document.getElementById('customTimeInput').value.trim();
         const seconds = parseInputSeconds(inputVal);
@@ -540,7 +747,6 @@
       document.getElementById('addScriptBtn').addEventListener('click', addNewScriptItem);
       document.addEventListener('keydown', handleGlobalHotkeys);
 
-      // Saved Video Card Actions
       const savedVideoGrid = document.getElementById('savedVideoGrid');
       savedVideoGrid.addEventListener('click', (e) => {
         const learnBtn = e.target.closest('.btn-learn-video');
@@ -560,12 +766,11 @@
       });
     }
 
-    // 보관함에 영상 및 시작 위치(startSeconds) 저장
     function saveVideoToList(id, title = "", isPlayable = null, startSeconds = -1) {
       if (!id) return;
       const existingIndex = savedVideos.findIndex(v => v.id === id);
-      const displayTitle = title || `YouTube 영상 (${id})`;
-      const todayDate = new Date().toLocaleDateString('ko-KR');
+      const displayTitle = title || `YouTube Video (${id})`;
+      const todayDate = new Date().toLocaleDateString(currentLang === 'ko' ? 'ko-KR' : 'en-US');
 
       if (existingIndex > -1) {
         if (title) savedVideos[existingIndex].title = title;
@@ -610,7 +815,7 @@
       savedVideos = savedVideos.filter(v => v.id !== id);
       persistSavedVideos();
       renderSavedVideos();
-      showToast('영상이 보관함에서 삭제되었습니다.');
+      showToast(i18n[currentLang].msgDeleted);
     }
 
     function persistSavedVideos() {
@@ -649,12 +854,13 @@
         filteredList = savedVideos.filter(v => !v.isPlayable);
       }
 
-      countBadge.textContent = `${savedVideos.length}개`;
+      const countSuffix = currentLang === 'ko' ? '개' : '';
+      countBadge.textContent = `${savedVideos.length}${countSuffix}`;
 
       if (filteredList.length === 0) {
         container.innerHTML = `
           <div class="col-span-full text-center py-10 text-xs text-slate-500 border border-dashed border-slate-800 rounded-xl">
-            저장된 영상이 없습니다. 상단에서 URL을 입력하여 불러와보세요.
+            ${i18n[currentLang].noSavedVideos}
           </div>
         `;
         return;
@@ -663,14 +869,14 @@
       filteredList.forEach(video => {
         const thumbUrl = `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`;
         const startSec = (video.startSeconds !== undefined) ? video.startSeconds : 0;
-        const timeBadgeText = startSec > 0 ? `시작 위치: ${formatTime(startSec)}` : `처음부터`;
+        const timeBadgeText = startSec > 0 ? `${i18n[currentLang].startPos}: ${formatTime(startSec)}` : i18n[currentLang].fromStart;
 
         const card = document.createElement('div');
         card.className = 'bg-slate-950 border border-slate-800 rounded-xl overflow-hidden flex flex-col justify-between hover:border-slate-700 transition group shadow';
 
         const statusBadge = video.isPlayable 
-          ? `<span class="bg-emerald-950 text-emerald-400 border border-emerald-800/80 text-[10px] px-2 py-0.5 rounded-full font-semibold"><i class="fa-solid fa-circle-check mr-1"></i>재생 가능</span>`
-          : `<span class="bg-red-950 text-red-400 border border-red-800/80 text-[10px] px-2 py-0.5 rounded-full font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i>재생 불가</span>`;
+          ? `<span class="bg-emerald-950 text-emerald-400 border border-emerald-800/80 text-[10px] px-2 py-0.5 rounded-full font-semibold"><i class="fa-solid fa-circle-check mr-1"></i>${i18n[currentLang].playableBadge}</span>`
+          : `<span class="bg-red-950 text-red-400 border border-red-800/80 text-[10px] px-2 py-0.5 rounded-full font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i>${i18n[currentLang].unplayableBadge}</span>`;
 
         card.innerHTML = `
           <div>
@@ -687,20 +893,20 @@
               <h3 class="text-xs font-semibold text-slate-200 line-clamp-2 leading-snug mb-1" title="${escapeHtml(video.title)}">
                 ${escapeHtml(video.title)}
               </h3>
-              <p class="text-[10px] text-slate-500">등록일: ${video.addedAt}</p>
+              <p class="text-[10px] text-slate-500">${i18n[currentLang].addedAt}: ${video.addedAt}</p>
             </div>
           </div>
 
           <div class="p-3 pt-0 flex items-center justify-between gap-2 border-t border-slate-900/50 mt-2">
             <div class="flex items-center gap-1.5 flex-1">
               <button data-video-id="${video.id}" data-start-sec="${startSec}" class="btn-learn-video flex-1 bg-brand-600 hover:bg-brand-500 text-white text-[11px] font-semibold py-1.5 px-2 rounded-lg transition flex items-center justify-center gap-1">
-                <i class="fa-solid fa-play text-[9px]"></i> 학습하기 (${formatTime(startSec)})
+                <i class="fa-solid fa-play text-[9px]"></i> ${i18n[currentLang].learnBtn} (${formatTime(startSec)})
               </button>
-              <a href="https://www.youtube.com/watch?v=${video.id}&t=${startSec}s" target="_blank" rel="noopener noreferrer" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 text-xs transition" title="유튜브에서 직접 열기">
+              <a href="https://www.youtube.com/watch?v=${video.id}&t=${startSec}s" target="_blank" rel="noopener noreferrer" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 text-xs transition" title="Open directly in YouTube">
                 <i class="fa-brands fa-youtube"></i>
               </a>
             </div>
-            <button data-video-id="${video.id}" class="btn-delete-video p-1.5 text-slate-500 hover:text-red-400 text-xs transition" title="보관함에서 삭제">
+            <button data-video-id="${video.id}" class="btn-delete-video p-1.5 text-slate-500 hover:text-red-400 text-xs transition" title="Delete">
               <i class="fa-solid fa-trash-can"></i>
             </button>
           </div>
@@ -709,7 +915,6 @@
       });
     }
 
-    // 강력하게 개선된 유튜브 ID 추출 함수 (쿼리 파라미터 및 추가 문자 완벽 대응)
     function extractVideoId(url) {
       if (!url) return null;
       url = url.trim();
@@ -736,13 +941,12 @@
         const existing = savedVideos.find(v => v.id === videoId);
         const startSec = existing ? (existing.startSeconds || 0) : 0;
         loadVideoById(videoId, startSec);
-        showToast('영상을 불러왔습니다.', 'success');
+        showToast(i18n[currentLang].msgVideoLoaded, 'success');
       } else {
-        showToast('유효한 유튜브 URL 또는 ID를 입력해주세요.', 'error');
+        showToast(i18n[currentLang].msgInvalidUrl, 'error');
       }
     }
 
-    // 보관함에서 [학습하기] 클릭 시 지정된 startSeconds 위치부터 재생 시작
     function loadVideoById(id, startSeconds = 0) {
       if (!id) return;
       document.getElementById('playerPlaceholder').classList.add('hidden');
@@ -755,7 +959,7 @@
         });
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        showToast('플레이어가 아직 준비 중입니다. 잠시 후 다시 시도해주세요.', 'error');
+        showToast(i18n[currentLang].msgPlayerNotReady, 'error');
       }
 
       document.getElementById('customTimeInput').value = formatTime(startSeconds);
@@ -780,14 +984,14 @@
       if (!isPlayerReady || !player) return;
       const currentTime = player.getCurrentTime();
       player.seekTo(currentTime + seconds, true);
-      showToast(`${seconds > 0 ? '+' : ''}${seconds}초 이동`);
+      showToast(`${seconds > 0 ? '+' : ''}${seconds}${i18n[currentLang].msgTimeMoved}`);
     }
 
     function changePlaybackSpeed(e) {
       if (!isPlayerReady || !player) return;
       const speed = parseFloat(e.target.value);
       player.setPlaybackRate(speed);
-      showToast(`재생 속도: ${speed}x`);
+      showToast(`${i18n[currentLang].msgSpeedChanged}${speed}x`);
     }
 
     function toggleLoopSegment() {
@@ -800,12 +1004,12 @@
         loopStartTime = player.getCurrentTime();
         loopEndTime = loopStartTime + 5;
         loopBtn.classList.add('border-brand-500', 'text-brand-500', 'bg-brand-500/10');
-        loopText.textContent = `구간반복 (5s)`;
-        showToast('현재 위치부터 5초 구간 반복 실행');
+        loopText.textContent = i18n[currentLang].loopOn;
+        showToast(i18n[currentLang].msgLoop5s);
       } else {
         loopBtn.classList.remove('border-brand-500', 'text-brand-500', 'bg-brand-500/10');
-        loopText.textContent = `구간 반복 Off`;
-        showToast('구간 반복 해제');
+        loopText.textContent = i18n[currentLang].loopOff;
+        showToast(i18n[currentLang].msgLoopOff);
       }
     }
 
@@ -841,7 +1045,6 @@
       return `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
     }
 
-    // 시간 파싱 함수 ("33:00" -> 1980초 변환)
     function parseInputSeconds(inputVal) {
       if (!inputVal) return 0;
       inputVal = inputVal.trim();
@@ -857,7 +1060,6 @@
       return parseInt(inputVal, 10) || 0;
     }
 
-    // [이동] 버튼(a 태그)의 href 링크 동기화
     function updateMoveLinkHref(seconds) {
       const moveLinkBtn = document.getElementById('moveLinkBtn');
       if (!currentLoadedVideoId) {
@@ -867,13 +1069,11 @@
       moveLinkBtn.href = `https://www.youtube.com/watch?v=${currentLoadedVideoId}&t=${seconds}s`;
     }
 
-    // [이동] 버튼 좌클릭 시: 좌측 플레이어 이동 및 현재 입력된 시간(startSeconds)을 보관함에 영구 저장
     function handleMoveClick(event) {
       event.preventDefault(); 
       executeMoveAction();
     }
 
-    // 실제 이동 및 보관함 저장 로직 수행 함수 (재생 불가 영상에서도 입력한 ID와 시간이 정확히 반영됨)
     function executeMoveAction() {
       const inputUrl = document.getElementById('videoUrlInput').value.trim();
       const videoIdFromInput = extractVideoId(inputUrl);
@@ -881,7 +1081,7 @@
       const targetVideoId = videoIdFromInput || currentLoadedVideoId;
 
       if (!targetVideoId) {
-        showToast('먼저 유튜브 영상 URL을 입력하거나 불러주세요.', 'error');
+        showToast(i18n[currentLang].msgNeedUrl, 'error');
         return;
       }
 
@@ -889,13 +1089,12 @@
 
       const inputVal = document.getElementById('customTimeInput').value.trim();
       if (!inputVal) {
-        showToast('이동할 시간을 입력해주세요 (예: 33:00)', 'error');
+        showToast(i18n[currentLang].msgNeedTime, 'error');
         return;
       }
 
       const targetSeconds = parseInputSeconds(inputVal);
 
-      // 1. 좌측 내장 플레이어 이동 시도
       if (isPlayerReady && player && player.seekTo) {
         try {
           player.seekTo(targetSeconds, true);
@@ -905,23 +1104,22 @@
         }
       }
 
-      // 2. 우클릭 분할뷰 링크 대상 시간 갱신
       updateMoveLinkHref(targetSeconds);
 
-      // 3. [핵심] 재생 불가 영상이더라도 현재 영상의 ID와 시작 위치(startSeconds)를 보관함에 안전하게 반영 및 저장
       const existing = savedVideos.find(v => v.id === targetVideoId);
       const isPlayableVal = existing ? existing.isPlayable : false;
-      saveVideoToList(targetVideoId, existing ? existing.title : `YouTube 영상 (${targetVideoId})`, isPlayableVal, targetSeconds);
+      saveVideoToList(targetVideoId, existing ? existing.title : `YouTube Video (${targetVideoId})`, isPlayableVal, targetSeconds);
 
-      showToast(`시작 위치 ${formatTime(targetSeconds)}로 보관함에 저장되었습니다.`);
+      const msg = i18n[currentLang].msgSavedAt.replace('{time}', formatTime(targetSeconds));
+      showToast(msg);
     }
 
     function getSupportedMimeType() {
       const types = [
-        'audio/mp4',
-        'audio/aac',
         'audio/webm;codecs=opus',
         'audio/webm',
+        'audio/mp4',
+        'audio/aac',
         'audio/ogg'
       ];
       for (let i = 0; i < types.length; i++) {
@@ -933,6 +1131,12 @@
     }
 
     async function startRecording() {
+      // 보안 컨텍스트 검사 (file:// 환경 차단 안내)
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        showToast(i18n[currentLang].msgMicNeeded, 'error');
+        return;
+      }
+
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         audioChunks = [];
@@ -941,10 +1145,15 @@
         const options = mimeType ? { mimeType } : {};
 
         mediaRecorder = new MediaRecorder(stream, options);
-        mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) {
+            audioChunks.push(e.data);
+          }
+        };
         mediaRecorder.onstop = handleRecordingStop;
 
-        mediaRecorder.start();
+        // timeslice(100ms) 추가하여 안정적으로 데이터 청크 수집
+        mediaRecorder.start(100);
         isRecording = true;
         recordStartTime = Date.now();
 
@@ -957,10 +1166,10 @@
         startRecordTimer();
         setupAudioVisualizer(stream);
 
-        showToast('녹음을 시작합니다.', 'info');
+        showToast(i18n[currentLang].msgRecStarted, 'info');
       } catch (err) {
         console.error('Microphone error:', err);
-        showToast('마이크 접근 권한이 필요합니다.', 'error');
+        showToast(i18n[currentLang].msgMicNeeded, 'error');
       }
     }
 
@@ -982,7 +1191,7 @@
       clearInterval(recordTimerInterval);
       if (visualizerAnimation) cancelAnimationFrame(visualizerAnimation);
       resetVisualizerBars();
-      showToast('녹음이 완료되었습니다.', 'success');
+      showToast(i18n[currentLang].msgRecStopped, 'success');
     }
 
     function handleRecordingStop() {
@@ -994,14 +1203,17 @@
 
       const audioBlob = new Blob(audioChunks, { type: mimeType || 'audio/webm' });
       const audioUrl = URL.createObjectURL(audioBlob);
-      const timestamp = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const timestamp = new Date().toLocaleTimeString(currentLang === 'ko' ? 'ko-KR' : 'en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
       const list = document.getElementById('recordingList');
       document.getElementById('emptyRecordingsNotice')?.classList.add('hidden');
 
       const countBadge = document.getElementById('recordingCount');
       const currentCount = list.querySelectorAll('.audio-card').length + 1;
-      countBadge.textContent = `${currentCount}개`;
+      const countSuffix = currentLang === 'ko' ? '개' : '';
+      countBadge.textContent = `${currentCount}${countSuffix}`;
+
+      const recTitle = i18n[currentLang].recNumber.replace('{count}', currentCount);
 
       const card = document.createElement('div');
       card.className = 'audio-card bg-slate-950 border border-slate-800 p-3 rounded-xl flex items-center justify-between gap-3 shadow-sm';
@@ -1011,15 +1223,15 @@
             <i class="fa-solid fa-microphone"></i>
           </div>
           <div class="overflow-hidden">
-            <p class="text-xs font-semibold text-slate-200 truncate">녹음 #${currentCount} (${timestamp})</p>
+            <p class="text-xs font-semibold text-slate-200 truncate">${recTitle} (${timestamp})</p>
             <audio src="${audioUrl}" controls class="h-6 w-full max-w-[200px] mt-1 text-xs"></audio>
           </div>
         </div>
         <div class="flex items-center gap-1">
-          <a href="${audioUrl}" download="shadowing_record_${currentCount}.${fileExtension}" class="p-2 text-slate-400 hover:text-brand-500 transition" title="다운로드">
+          <a href="${audioUrl}" download="shadowing_record_${currentCount}.${fileExtension}" class="p-2 text-slate-400 hover:text-brand-500 transition" title="Download">
             <i class="fa-solid fa-download text-xs"></i>
           </a>
-          <button onclick="this.closest('.audio-card').remove(); updateRecordCount();" class="p-2 text-slate-400 hover:text-red-400 transition" title="삭제">
+          <button onclick="this.closest('.audio-card').remove(); updateRecordCount();" class="p-2 text-slate-400 hover:text-red-400 transition" title="Delete">
             <i class="fa-solid fa-trash-can text-xs"></i>
           </button>
         </div>
@@ -1030,7 +1242,8 @@
     function updateRecordCount() {
       const list = document.getElementById('recordingList');
       const cards = list.querySelectorAll('.audio-card');
-      document.getElementById('recordingCount').textContent = `${cards.length}개`;
+      const countSuffix = currentLang === 'ko' ? '개' : '';
+      document.getElementById('recordingCount').textContent = `${cards.length}${countSuffix}`;
       if (cards.length === 0) {
         document.getElementById('emptyRecordingsNotice')?.classList.remove('hidden');
       }
@@ -1095,8 +1308,8 @@
       const badge = document.getElementById('accuracyBadge');
 
       if (!input.length) {
-        diffView.innerHTML = '<span class="text-slate-500 italic text-base">타이핑을 시작하면 실시간으로 비교 결과가 표시됩니다.</span>';
-        badge.textContent = '일치율: 0%';
+        diffView.innerHTML = `<span class="text-slate-500 italic text-base">${i18n[currentLang].typingDefaultNotice}</span>`;
+        badge.textContent = `${i18n[currentLang].accuracy}: 0%`;
         badge.className = 'text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono';
         return;
       }
@@ -1119,7 +1332,7 @@
 
       const accuracy = Math.round((correctChars / target.length) * 100) || 0;
       diffView.innerHTML = diffHTML;
-      badge.textContent = `일치율: ${accuracy}%`;
+      badge.textContent = `${i18n[currentLang].accuracy}: ${accuracy}%`;
 
       if (accuracy >= 90) {
         badge.className = 'text-[11px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 font-mono font-bold border border-emerald-800';
@@ -1143,12 +1356,12 @@
         card.className = 'bg-slate-950 border border-slate-800 p-3 rounded-xl flex flex-col gap-2 hover:border-slate-700 transition group';
         card.innerHTML = `
           <div class="flex items-center justify-between">
-            <button onclick="seekToScriptTime(${item.time})" class="text-xs font-mono font-semibold text-brand-500 hover:text-brand-400 flex items-center gap-1" title="해당 시간 유튜브 페이지로 이동">
+            <button onclick="seekToScriptTime(${item.time})" class="text-xs font-mono font-semibold text-brand-500 hover:text-brand-400 flex items-center gap-1" title="Open YouTube page at this timestamp">
               <i class="fa-solid fa-play text-[10px]"></i> ${formatTime(item.time)}
             </button>
             <div class="flex items-center gap-2">
               <button onclick="selectForTyping('${escapeHtml(item.text)}')" class="text-[11px] text-slate-400 hover:text-slate-200 bg-slate-900 hover:bg-slate-800 px-2 py-0.5 rounded border border-slate-800 transition">
-                타이핑 연습으로 선택
+                ${i18n[currentLang].selectForTyping}
               </button>
               <button onclick="deleteScript(${item.id})" class="text-slate-500 hover:text-red-400 text-xs">
                 <i class="fa-solid fa-xmark"></i>
@@ -1172,9 +1385,10 @@
       if (currentLoadedVideoId) {
         const youtubeUrl = `https://www.youtube.com/watch?v=${currentLoadedVideoId}&t=${timeInSec}s`;
         window.open(youtubeUrl, '_blank');
-        showToast(`${formatTime(timeInSec)} 위치로 유튜브 페이지를 열었습니다.`);
+        const msg = i18n[currentLang].msgScriptOpened.replace('{time}', formatTime(timeInSec));
+        showToast(msg);
       } else {
-        showToast(`${formatTime(timeInSec)} 구간으로 이동`);
+        showToast(`${formatTime(timeInSec)} jump`);
       }
     }
 
@@ -1183,12 +1397,12 @@
       document.getElementById('typingInput').value = '';
       evaluateTypingAccuracy();
       switchTab('typing');
-      showToast('선택한 문장이 타이핑 목표로 설정되었습니다.');
+      showToast(i18n[currentLang].msgScriptTypingSet);
     }
 
     function addNewScriptItem() {
       const currentTime = isPlayerReady && player ? Math.floor(player.getCurrentTime()) : 0;
-      const text = prompt('추가할 스크립트 문장을 입력하세요:', '');
+      const text = prompt(i18n[currentLang].promptAddScript, '');
       if (text && text.trim()) {
         scripts.push({
           id: Date.now(),
@@ -1196,7 +1410,7 @@
           text: text.trim()
         });
         renderScriptList();
-        showToast('스크립트 문장이 추가되었습니다.');
+        showToast(i18n[currentLang].msgScriptAdded);
       }
     }
 
@@ -1274,9 +1488,9 @@
           document.execCommand('copy');
           document.body.removeChild(dummy);
         }
-        showToast('클립보드에 복사되었습니다.');
+        showToast(i18n[currentLang].msgCopied);
       } catch (err) {
-        showToast('복사에 실패했습니다.', 'error');
+        showToast(i18n[currentLang].msgCopyFailed, 'error');
       }
     }
 
